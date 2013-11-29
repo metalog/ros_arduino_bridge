@@ -27,6 +27,10 @@ the PC. The base controller requires the use of a motor controller and encoders 
 
 **NOTE:** The Robogaia Mega Encoder shield can only be used with an Arduino Mega.
 
+* DFRobot Romeo all-in-one controller (http://www.dfrobot.com/wiki/index.php?title=DFRduino_Romeo-All_in_one_Controller_V1.1%28SKU:DFR0004%29)
+  or similar with SEN0038 wheel encoders (http://www.dfrobot.com/wiki/index.php/Wheel_Encoders_for_DFRobot_3PA_and_4WD_Rovers_%28SKU:SEN0038%29).
+  Also with basic mock/fake odometry support.
+
 * The library can be easily extended to include support for other motor controllers and encoder hardware or libraries.
 
 Official ROS Documentation
