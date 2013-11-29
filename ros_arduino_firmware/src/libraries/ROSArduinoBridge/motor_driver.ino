@@ -55,6 +55,56 @@
     setMotorSpeed(LEFT, leftSpeed);
     setMotorSpeed(RIGHT, rightSpeed);
   }
+
+#elif defined DFROBOT_ROMEO
+  //Standard PWM DC control
+  int E1 = 5;     //M1 Speed Control
+  int E2 = 6;     //M2 Speed Control
+  int M1 = 4;    //M1 Direction Control
+  int M2 = 7;    //M1 Direction Control
+
+  /* Wrap the motor driver initialization */
+  void initMotorController() {
+    int i;
+    for(i=4;i<=7;i++) pinMode(i, OUTPUT);
+  }
+
+  /* Wrap the drive motor set speed function */
+  void setMotorSpeed(int i, int spd) {
+    int E, M;
+
+    if (i == LEFT)
+    {
+      E = E1;
+      M = M1;
+    }
+    else
+    {
+      E = E2;
+      M = M2;
+    }
+
+    if (spd == 0)
+    {
+      digitalWrite(E, LOW);
+    }
+    else if (spd < 0)
+    {
+      analogWrite(E, -spd);
+      digitalWrite(M, LOW);
+    } else
+    {
+      analogWrite(E, spd);
+      digitalWrite(M, HIGH);
+    }
+  }
+
+  // A convenience function for setting both motor speeds
+  void setMotorSpeeds(int leftSpeed, int rightSpeed) {
+    setMotorSpeed(LEFT, leftSpeed);
+    setMotorSpeed(RIGHT, rightSpeed);
+  }
+
 #else
   #error A motor driver must be selected!
 #endif

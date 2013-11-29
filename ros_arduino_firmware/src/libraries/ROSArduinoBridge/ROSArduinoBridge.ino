@@ -51,13 +51,19 @@
 /* Define the motor controller and encoder library you are using */
 #ifdef USE_BASE
    /* The Pololu VNH5019 dual motor driver shield */
-   #define POLOLU_VNH5019
+   //#define POLOLU_VNH5019
 
    /* The Pololu MC33926 dual motor driver shield */
    //#define POLOLU_MC33926
 
    /* The RoboGaia encoder shield */
-   #define ROBOGAIA
+   //#define ROBOGAIA
+
+   /* DFRobot Romeo 1.1 board PWM motor-drives (4,5,6,7) */
+    #define DFROBOT_ROMEO
+
+   /* DFRobot encoders SEN0038, using interrupts (2-left, 3-right) */
+    #define DFROBOT_SEN0038
 #endif
 
 //#define USE_SERVOS  // Enable use of PWM servos as defined in servos.h
@@ -237,6 +243,11 @@ void setup() {
 // Initialize the motor controller if used */
 #ifdef USE_BASE
   initMotorController();
+
+#if defined DFROBOT_SEN0038
+      setupEncoders();
+#endif
+
   resetPID();
 #endif
 
