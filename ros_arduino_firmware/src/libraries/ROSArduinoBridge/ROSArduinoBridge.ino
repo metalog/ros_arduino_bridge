@@ -64,6 +64,7 @@
 
    /* DFRobot encoders SEN0038, using interrupts (2-left, 3-right) */
     #define DFROBOT_SEN0038
+    //#define FAKE_ODOMETRY
 #endif
 
 //#define USE_SERVOS  // Enable use of PWM servos as defined in servos.h
@@ -308,6 +309,9 @@ void loop() {
 // If we are using base control, run a PID calculation at the appropriate intervals
 #ifdef USE_BASE
   if (millis() > nextPID) {
+#ifdef FAKE_ODOMETRY
+    updateFakeOdometry(moving, lastMotorCommand, leftPID.TargetTicksPerFrame, rightPID.TargetTicksPerFrame);
+#endif
     updatePID();
     nextPID += PID_INTERVAL;
   }

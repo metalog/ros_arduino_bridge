@@ -32,16 +32,17 @@
 
 #elif defined DFROBOT_SEN0038
   long coder[2] = {0,0};
-  int lastSpeed[2] = {0,0};
 
   void setupEncoders()
   {
+#ifndef FAKE_ODOMETRY
     pinMode(2, INPUT);
     digitalWrite(2, HIGH);       // turn on pullup resistor
     pinMode(3, INPUT);
     digitalWrite(3, HIGH);       // turn on pullup resistor
     attachInterrupt(LEFT, LwheelSpeed, CHANGE);    //init the interrupt mode for the digital pin 2
     attachInterrupt(RIGHT, RwheelSpeed, CHANGE);   //init the interrupt mode for the digital pin 3
+#endif
   }
 
   void LwheelSpeed()
@@ -63,6 +64,19 @@
   void resetEncoder(int i) {
     coder[i] = 0;
   }
+
+#ifdef FAKE_ODOMETRY
+  void updateFakeOdometry(unsigned char moving, long lastMotorCommand, double left_tpf, double right_tpf)
+  {
+    unsigned long timeframe;
+    if(moving)
+    {
+      timeframe = millis() - lastMotorCommand;
+      coder[LEFT]  = timeframe * left_tpf / 1000 + 0.5;
+      coder[RIGHT] = timeframe * right_tpf / 1000 + 0.5;
+    }
+  }
+#endif
 #else
   #error A encoder driver must be selected!
 #endif
